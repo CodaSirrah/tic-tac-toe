@@ -12,8 +12,8 @@ const player = (name, type) => {
     return {name, type};
 };
 
-const player1 = player("Tom", "o");
-const player2 = player("Ben", "x");
+const player1 = player("Tom", "❌");
+const player2 = player("Ben", "⭕");
 let currentPlayer = player1;
 
 const displayController = (() => {
@@ -29,13 +29,24 @@ const displayController = (() => {
             cell.setAttribute("id", `cell${i}`);
             cell.classList.add("gridCell");
             gameGrid.appendChild(cell);
-
             // tracks state of the game.
             cell.addEventListener("click", () => {
                 game(cell).gameState();
             });
         };
-        
+        const resetContainer = () => {
+            // document.createElement("div");
+            // const resetText = document.createElement("p");
+            // const resetSymbol = document.createElement("p");
+            // resetText.innerHTML = "Reset"
+            // resetSymbol.innerHTML = "↻";
+            // resetText.classList.add("resetText");
+            // resetSymbol.classList.add("arrow")
+            // resetContainer.classList.add("resetContainer");
+            // resetContainer.appendChild(resetText);
+            // resetContainer.appendChild(resetSymbol);
+            // document.querySelector("body").appendChild(resetContainer);
+        }
     };
     const displayWelcome = () => {
         let titleContainer = document.createElement("div");
@@ -56,7 +67,7 @@ const displayController = (() => {
         container.appendChild(startContainer);
         document.querySelector("body").appendChild(container);
         startButton.addEventListener("click", () => {
-            startContainer.remove();
+            startContainer.style.cssText = "animation: fadeOut 0.2s linear forwards;"
             container.classList.add("startAnimation");
             container.style.cssText = "pointer-events: none";
             displayController.displayGameboard();
@@ -112,7 +123,7 @@ const game = cell => {
             } else {
                 let gridSpace = 9;
                 for (i = 0; i <= 8; i++) {
-                    if (cellArray[i].innerHTML === "x" || cellArray[i].innerHTML === "o")  gridSpace -= 1;
+                    if (cellArray[i].innerHTML === "❌" || cellArray[i].innerHTML === "⭕")  gridSpace -= 1;
                 }
                 if (gridSpace <= 0) return drawScreen();
 
@@ -165,6 +176,11 @@ const game = cell => {
             displayController.displayGameboard();
         })
     };
+
+    resetGrid = () => {
+        document.getElementById("main").remove();
+        displayController.displayGameboard();
+    }
     
-    return {checkEmptyCell, markCell, paintCell, checkResult, gameState};
+    return {checkEmptyCell, markCell, paintCell, checkResult, gameState, resetGrid};
 };

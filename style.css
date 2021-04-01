@@ -21,9 +21,7 @@ header {
     "cell1 cell2 cell3"
     "cell4 cell5 cell6"
     "cell7 cell8 cell9";
-    border: 3px solid #5cb9ed;
-    border-radius: 2px;
-    animation: fadeIn 2s linear;
+    animation: fadeIn 1.7s linear;
 }
 
 @keyframes fadeIn {
@@ -99,8 +97,9 @@ header {
     width: 400px;
     top: 50;
     left: 50;
-    background-color: yellow;
-    animation: victoryPopUp 1s linear;
+    background-color: white;
+    border: 2px solid black;
+    animation: victoryPopUp 0.7s linear;
 }
 
 .victoryMsg{
@@ -131,19 +130,25 @@ header {
     width: 200px;
     top: 50%;
     left: 50%;
-    transform: translate(-35%, -50%);
+    transform: translate(-50%, -50%);
     margin: 80px 0px;
+}
+
+.startButton:hover {
+    cursor: pointer;
 }
 
 .startButton {
     margin: 10px;
     font-size: 20px;
+    font-family: 'Hachi Maru Pop', cursive;
 }
 .titleMessage {
     margin: 10px;
     text-align: center;
     line-height: 400px;
     font-size: 40px;
+    font-family: 'Hachi Maru Pop', cursive;
 }
 
 .titleContainer {
@@ -169,9 +174,40 @@ header {
 
     100% {
         transform: translate(-50%, -150%);
+        text-decoration: underline;
     }
 }
 
 .startAnimation {
-    animation: startAnimation 0.8s linear forwards;
+    animation: startAnimation 0.7s linear forwards;
+}
+
+.resetText {
+
+}
+
+.arrow {
+
+}
+
+.resetContainer {
+    position: absolute;
+    margin-top: 20px;
+    left: 49%;
+    width: 200px;
+    height: 100px;
+
+    
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 100%;
+    }
+    50% {
+        opacity: 50%;
+    }
+    100% {
+        opacity: 0%;
+    }
 }
