@@ -38,17 +38,29 @@ const displayController = (() => {
         
     };
     const displayWelcome = () => {
-        let startContainer = document.createElement("div");
+        let titleContainer = document.createElement("div");
         let titleMessage = document.createElement("h1");
+        let startContainer = document.createElement("div");
         let startButton = document.createElement("button");
-        startContainer.classList.add("startContainer");
+        let container = document.createElement("div");
+        container.classList.add("titleContainer");
+        titleContainer.classList.add("titleContainer");
         titleMessage.classList.add("titleMessage");
+        startContainer.classList.add("startContainer");
         startButton.classList.add("startButton");
         titleMessage.innerHTML = "Tic Tac Toe";
         startButton.innerHTML = "Start Game?";
-        startContainer.appendChild(titleMessage);
+        titleContainer.appendChild(titleMessage);
         startContainer.appendChild(startButton);
-        document.getElementById("container").appendChild(startContainer);
+        container.appendChild(titleContainer);
+        container.appendChild(startContainer);
+        document.querySelector("body").appendChild(container);
+        startButton.addEventListener("click", () => {
+            startContainer.remove();
+            container.classList.add("startAnimation");
+            container.style.cssText = "pointer-events: none";
+            displayController.displayGameboard();
+        });
     };
     
     return {
@@ -56,8 +68,8 @@ const displayController = (() => {
         displayGameboard
         };
     })();
-// displayController.displayWelcome();
-displayController.displayGameboard();
+displayController.displayWelcome();
+// displayController.displayGameboard();
 
 const cellArray = document.getElementsByClassName("gridCell");
 
