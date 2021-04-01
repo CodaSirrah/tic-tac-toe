@@ -1,0 +1,116 @@
+header {
+    display: flex;
+    justify-content: center;
+    height: 10vh;
+}
+
+#main {
+    display: flex;
+    justify-content: center;
+    height: fit-content;
+}
+
+#gameGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    height: 400px;
+    width: 400px;
+    grid-template-areas: 
+    "cell1 cell2 cell3"
+    "cell4 cell5 cell6"
+    "cell7 cell8 cell9";
+    border: 3px solid #5cb9ed;
+    border-radius: 2px;
+}
+
+#gameGrid:hover {
+    cursor: pointer;
+}
+
+#cell1 {
+    grid-area: cell1;
+}
+
+#cell2 {
+    grid-area: cell2;
+}
+
+#cell3 {
+    grid-area: cell3;
+}
+
+#cell4 {
+    grid-area: cell4;
+}
+
+#cell5 {
+    grid-area: cell5;
+}
+
+#cell6 {
+    grid-area: cell6;
+}
+
+#cell7 {
+    grid-area: cell7;
+}
+
+#cell8 {
+    grid-area: cell8;
+}
+
+#cell9 {
+    grid-area: cell9;
+}
+
+.gridCell {
+    border: 2px solid black;
+    background-color: #b4bbbf;
+    font-size: 50px;
+    color: red;
+    text-align: center;
+    line-height: 129px;
+}
+
+.victoryContainer {
+    position: absolute;
+    height: 400px;
+    width: 400px;
+    top: 50;
+    left: 50;
+    background-color: yellow;
+    animation: victoryPopUp 1s linear;
+}
+
+.victoryMsg{
+    text-align: center;
+    line-height: 320px;
+    font-size: 40px;
+}
+
+
+@keyframes victoryPopUp {
+    0% {
+        opacity: 0%;
+    }
+    33% {
+        opacity: 33%;
+    }
+    66% {
+        opacity: 66%
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
+.startContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.titleMessage {
+    
+}
+

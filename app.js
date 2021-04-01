@@ -5,7 +5,7 @@ gameBoard() keeps track of the grid and what type has been placed on it.
 players() creates each player and assigns them a type (naughts or crosses).
 displayController() is responsible for displaying the initial grid and displaying any updates.
 */
-const gameGrid = document.getElementById("gameGrid");
+
 const cells = document.getElementsByClassName("gridCell");
 
 const player = (name, type) => {
@@ -17,42 +17,51 @@ const player2 = player("Ben", "x");
 let currentPlayer = player1;
 
 const displayController = (() => {
-    const grid = [1, 2, 3, 4, 5 ,6 ,7, 8, 9];
     const displayGameboard = () => {
-        for (i = 1; i <= grid.length; i++) {
+        const main = document.createElement("section");
+        main.setAttribute("id", "main");
+        const gameGrid = document.createElement("div");
+        gameGrid.setAttribute("id", "gameGrid");
+        main.appendChild(gameGrid);
+        document.querySelector("body").appendChild(main);
+        for (i = 1; i <= 9; i++) {
             let cell = document.createElement("div");
-            cell.setAttribute("data-cell", i);
             cell.setAttribute("id", `cell${i}`);
             cell.classList.add("gridCell");
             gameGrid.appendChild(cell);
+
+            // tracks state of the game.
             cell.addEventListener("click", () => {
-                if (game(cell).checkEmptyCell() === true) {
-                    if (currentPlayer === player1) {
-                    game(cell).markCell(player1.type);
-                    game(cell).paintCell();
-                    game().checkWin(currentPlayer, currentPlayer.type);
-                    game().checkDraw();
-                    currentPlayer = player2; 
-                    } else if (currentPlayer === player2) {
-                    game(cell).markCell(player2.type);
-                    game(cell).paintCell();
-                    game().checkWin(currentPlayer, currentPlayer.type);
-                    game().checkDraw();
-                    currentPlayer = player1;
-                    }
-                }
+                game(cell).gameState();
             });
         };
+        
     };
+    const displayWelcome = () => {
+        let startContainer = document.createElement("div");
+        let titleMessage = document.createElement("h1");
+        let startButton = document.createElement("button");
+        startContainer.classList.add("startContainer");
+        titleMessage.classList.add("titleMessage");
+        startButton.classList.add("startButton");
+        titleMessage.innerHTML = "Tic Tac Toe";
+        startButton.innerHTML = "Start Game?";
+        startContainer.appendChild(titleMessage);
+        startContainer.appendChild(startButton);
+        document.getElementById("container").appendChild(startContainer);
+    };
+    
     return {
+        displayWelcome,
         displayGameboard
         };
     })();
-
+// displayController.displayWelcome();
 displayController.displayGameboard();
+
 const cellArray = document.getElementsByClassName("gridCell");
 
-const game = (cell) => {
+const game = cell => {
     markCell = (type) => {
         cell.setAttribute("data-type", type);
     };
@@ -68,40 +77,82 @@ const game = (cell) => {
         cell.innerHTML = `${currentPlayer.type}`;
     };
     
-    checkWin = (player, playerType) => {
+    checkResult = (player, playerType) => {
         if (cellArray[0].dataset.type === playerType && cellArray[1].dataset.type === playerType && 
             cellArray[2].dataset.type === playerType ||
             cellArray[3].dataset.type === playerType && cellArray[4].dataset.type === playerType &&
             cellArray[5].dataset.type === playerType || 
             cellArray[6].dataset.type === playerType && cellArray[7].dataset.type === playerType &&
             cellArray[8].dataset.type === playerType) {
-        return alert(`${player.name} wins!`);
+                return victoryScreen(playerType);
         } else if (cellArray[0].dataset.type === playerType && cellArray[3].dataset.type === playerType &&
             cellArray[6].dataset.type === playerType ||
             cellArray[1].dataset.type === playerType && cellArray[4].dataset.type === playerType &&
             cellArray[7].dataset.type === playerType ||
             cellArray[2].dataset.type === playerType && cellArray[5].dataset.type === playerType &&
             cellArray[8].dataset.type === playerType) {
-                return alert(`${player.name} wins!`);
+                return victoryScreen(playerType);
             } else if (cellArray[0].dataset.type === playerType && cellArray[4].dataset.type === playerType &&
                 cellArray[8].dataset.type === playerType ||
                 cellArray[2].dataset.type === playerType && cellArray[4].dataset.type === playerType &&
             cellArray[6].dataset.type === playerType) {
-                return alert(`${player.name} wins!`);
+                return victoryScreen(playerType);
+            } else {
+                let gridSpace = 9;
+                for (i = 0; i <= 8; i++) {
+                    if (cellArray[i].innerHTML === "x" || cellArray[i].innerHTML === "o")  gridSpace -= 1;
+                }
+                if (gridSpace <= 0) return drawScreen();
+
             }
-            else {
-                return false;
-            };
     };
 
-    checkDraw = () => {
-        let gridSpace = 9;
-        for (i = 0; i <= 8; i++) {
-            if (cellArray[i].innerHTML === "x" || cellArray[i].innerHTML === "o")  gridSpace -= 1;
+    gameState = () => {
+        if (game(cell).checkEmptyCell() === true) {
+            if (currentPlayer === player1) {
+            game(cell).markCell(player1.type);
+            game(cell).paintCell();
+            game().checkResult(currentPlayer, currentPlayer.type);
+            
+            currentPlayer = player2; 
+            } else if (currentPlayer === player2) {
+            game(cell).markCell(player2.type);
+            game(cell).paintCell();
+            game().checkResult(currentPlayer, currentPlayer.type);
+            
+            currentPlayer = player1;
+            }
         }
-        if (gridSpace <= 0) return alert("It is a draw!");
-    }
+    };
 
-    return {checkEmptyCell, markCell, paintCell, checkWin, checkDraw};
+    victoryScreen = playerType => {
+        let victoryContainer = document.createElement("div");
+        let victoryMessage = document.createElement("p");
+        victoryMessage.innerHTML = "The winner is " + playerType;
+        victoryMessage.classList.add("victoryMsg");
+        victoryContainer.appendChild(victoryMessage);
+        victoryContainer.classList.add("victoryContainer");
+        gameGrid.appendChild(victoryContainer);
+        victoryContainer.addEventListener("click", (e) => {
+            document.getElementById("main").remove();
+            displayController.displayGameboard();
+            
+        })
+    };
+
+    drawScreen = () => {
+        let victoryContainer = document.createElement("div");
+        let victoryMessage = document.createElement("p");
+        victoryMessage.innerHTML = "It's a draw!";
+        victoryMessage.classList.add("victoryMsg");
+        victoryContainer.appendChild(victoryMessage);
+        victoryContainer.classList.add("victoryContainer");
+        gameGrid.appendChild(victoryContainer);
+        victoryContainer.addEventListener("click", (e) => {
+            document.getElementById("main").remove();
+            displayController.displayGameboard();
+        })
+    };
+    
+    return {checkEmptyCell, markCell, paintCell, checkResult, gameState};
 };
-
