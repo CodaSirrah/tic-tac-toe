@@ -199,9 +199,10 @@ const game = cell => {
             game(cell).markCell(player1.type);
             game(cell).paintCell(`${currentPlayer.type}`);
             game().checkResult(currentPlayer, currentPlayer.type);
-            if (endState === false) 
-            game().playAI();
-            game().checkResult(player2, player2.type);
+            if (endState === false) {
+                game().playAI();
+                game().checkResult(player2, player2.type);
+                }
             } 
         }
     };
