@@ -290,6 +290,27 @@
     }
 }
 
+@media screen and (max-height: 815px) {
+    @keyframes pushUp {
+        0% {
+            transform: translate(-200px, -200px);
+        }
+        33% {
+            transform: translate(-200px, -350px);
+        }
+    
+        67% {
+            transform: translate(-200px, -450px);
+        }
+    
+        100% {
+            transform: translate(-200px, -500px);
+    
+        }
+    }
+}
+
+
 @media screen and (max-height: 650px) {
     @keyframes pushUp {
         0% {
@@ -396,7 +417,7 @@
     }
 
     .resetContainer {
-        left: 0%;
+        left: 1%;
     }
 
     #gameGrid {
