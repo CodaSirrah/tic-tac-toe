@@ -141,7 +141,7 @@
 .resetContainer {
     position: absolute;
     margin-top: 10px;
-    left: 40%;
+    left: 39%;
     width: fit-content;
     height: 40px;
     border: 1px solid black;
@@ -161,7 +161,7 @@
 #opponentContainer {
     position: absolute;
     margin-top: 10px;
-    left: 47.5%;
+    left: 46.3%;
     width: fit-content;
     height: fit-content;
     border: 1px solid black;
@@ -226,7 +226,6 @@
     transform:scale(1.3);
     background-color: #f2ea7c;
 }
-
 
 @keyframes pushUp {
     0% {
@@ -308,5 +307,131 @@
             transform: translate(-200px, -400px);
     
         }
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    #opponentContainer {
+        left: 45%;
+    }
+
+    .resetContainer {
+        left: 36%;
+    }
+}
+
+@media screen and (max-width: 1050px) {
+    #opponentContainer {
+        left: 41%;
+    }
+
+    .resetContainer {
+        left: 29%;
+    }
+}
+
+@media screen and (max-width: 775px) {
+    #opponentContainer {
+        left: 40%;
+    }
+
+    .resetContainer {
+        left: 24%;
+    }
+}
+
+@media screen and (max-width: 595px) {
+    #opponentContainer {
+        left: 37%;
+    }
+
+    .resetContainer {
+        left: 18%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    #opponentContainer {
+        left: 30%;
+    }
+
+    .resetContainer {
+        left: 8%;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    #opponentContainer {
+        left: 30%;
+    }
+
+    .resetContainer {
+        left: 7%;
+    }
+
+    #gameGrid {
+        width: 300px;
+        height: 300px;
+    }
+
+    .gridCell {
+        font-size: 25px;
+        line-height: 96px;
+    }
+
+    .victoryContainer {
+        height: 300px;
+        width: 300px;
+    }
+
+    .victoryMsg {
+        line-height: 270px;
+        font-size: 35px;
+    }
+}
+
+@media screen and (max-width: 403px) {
+    #opponentContainer {
+        left: 21%;
+    }
+
+    .resetContainer {
+        left: 0%;
+    }
+
+    #gameGrid {
+        width: 300px;
+        height: 300px;
+    }
+
+    .gridCell {
+        font-size: 25px;
+        line-height: 96px;
+    }
+
+    .victoryContainer {
+        height: 300px;
+        width: 300px;
+    }
+
+    .victoryMsg {
+        line-height: 270px;
+        font-size: 35px;
+    }
+
+    .select {
+        font-size: 12px;
+    }
+
+    .vs {
+        font-size: 20px;
+    }
+
+    .currentSelection {
+        transform: scale(1.2);
+    }
+
+    .reset {
+        font-size: 12px;
     }
 }
