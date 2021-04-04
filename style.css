@@ -384,6 +384,7 @@
 
     .victoryMsg {
         line-height: 270px;
+        font-size: 35px;
     }
 }
 @media screen and (max-width: 300px) {
@@ -396,5 +397,25 @@
 
     .opponentGrid {
         width: 220px;
+    }
+
+    #gameGrid {
+        width: 250px;
+        height: 250px;
+    }
+
+    .gridCell {
+        font-size: 30px;
+        line-height: 76px;
+    }
+
+    .victoryContainer {
+        height: 250px;
+        width: 250px;
+    }
+
+    .victoryMsg {
+        line-height: 220px;
+        font-size: 30px;
     }
 }
