@@ -1,8 +1,4 @@
-header {
-    display: flex;
-    justify-content: center;
-    height: 10vh;
-}
+
 
 #main {
     display: flex;
@@ -22,24 +18,8 @@ header {
     "cell4 cell5 cell6"
     "cell7 cell8 cell9";
     animation: fadeIn 1.7s linear;
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0%;
-    }
-    25% {
-        opacity: 0%;
-    }
-    40% {
-        opacity: 25%;
-    }
-    60% {
-        opacity: 50%;
-    }
-    100% {
-        opacity: 100%;
-    }
+    user-select: none;
+    border: 2px solid black;
 }
 
 #gameGrid:hover {
@@ -98,7 +78,6 @@ header {
     top: 50;
     left: 50;
     background-color: white;
-    border: 2px solid black;
     animation: victoryPopUp 0.7s linear;
 }
 
@@ -106,22 +85,6 @@ header {
     text-align: center;
     line-height: 320px;
     font-size: 40px;
-}
-
-
-@keyframes victoryPopUp {
-    0% {
-        opacity: 0%;
-    }
-    33% {
-        opacity: 33%;
-    }
-    67% {
-        opacity: 66%
-    }
-    100% {
-        opacity: 100%;
-    }
 }
 
 .startContainer {
@@ -143,7 +106,7 @@ header {
     font-size: 20px;
     font-family: 'Hachi Maru Pop', cursive;
 }
-.titleMessage {
+.titleTag {
     margin: 10px;
     text-align: center;
     line-height: 400px;
@@ -157,47 +120,130 @@ header {
     width: 400px;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-200px, -200px);
 }
 
-@keyframes startAnimation {
-    0% {
-        transform: translate(-50%, -50%);
-    }
-    33% {
-        transform: translate(-50%, -90%);
-    }
-
-    67% {
-        transform: translate(-50%, -120%);
-    }
-
-    100% {
-        transform: translate(-50%, -150%);
-        text-decoration: underline;
-    }
+.pushUp {
+    animation: pushUp 0.7s linear forwards;
 }
 
-.startAnimation {
-    animation: startAnimation 0.7s linear forwards;
+.reset {
+    display: inline;
+    line-height: 40px;
+    margin: 0px 5px;
+    font-family: 'Hachi Maru Pop', cursive;
 }
 
-.resetText {
-
-}
-
-.arrow {
-
+.rotateAnimation {
+    animation: rotate 1s linear forwards;
 }
 
 .resetContainer {
     position: absolute;
-    margin-top: 20px;
-    left: 49%;
-    width: 200px;
-    height: 100px;
+    margin-top: 10px;
+    left: 40%;
+    width: fit-content;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 2px;
+    transition: transform 0.2s;
+}
 
+.resetFadeIn {
+    animation: fadeIn 1.5s linear forwards;
+}
+
+.resetContainer:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+#opponentContainer {
+    position: absolute;
+    margin-top: 10px;
+    left: 47.5%;
+    width: fit-content;
+    height: fit-content;
+    border: 1px solid black;
+    border-radius: 2px;
+    animation: fadeIn 1.5s linear forwards;
+}
+
+.opponentGrid {
+    display: grid;
+    height: 40px;
+    width: 260px;
+    grid-template-areas: 
+    "human vs ai";
+}
+
+
+.select {
+    font-size: 15px;
+    border: none;
+    background-color: white;
+    font-family: 'Hachi Maru Pop', cursive;
+}
+
+.AI:hover {
+    transform: scale(1.3);
+    cursor: pointer;
+}
+
+.human:hover {
+    transform: scale(1.3);
+    cursor: pointer;
+}
+
+.AI {
+    grid-area: ai;
+
+}
+
+.human {
+    grid-area: human;
     
+}
+
+.vs {
+    grid-area: vs;
+    color: red;
+    font-family: 'Akaya Kanadaka', cursive;
+    font-size: 25px;
+    margin: 0px 20px;
+    border: none;
+    background-color: white;
+   
+}
+
+.vs:focus, .select:focus {
+    outline: none;
+}
+
+.currentSelection {
+    border: 2px solid black;
+    border-radius: 10px;
+    transform:scale(1.3);
+    background-color: #f2ea7c;
+}
+
+
+@keyframes pushUp {
+    0% {
+        transform: translate(-200px, -200px);
+    }
+    33% {
+        transform: translate(-200px, -360px);
+    }
+
+    67% {
+        transform: translate(-200px, -480px);
+    }
+
+    100% {
+        transform: translate(-200px, -600px);
+
+    }
 }
 
 @keyframes fadeOut {
@@ -209,5 +255,58 @@ header {
     }
     100% {
         opacity: 0%;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0%;
+    }
+    25% {
+        opacity: 0%;
+    }
+    40% {
+        opacity: 25%;
+    }
+    60% {
+        opacity: 50%;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
+@keyframes victoryPopUp {
+    0% {
+        opacity: 0%;
+    }
+    33% {
+        opacity: 33%;
+    }
+    67% {
+        opacity: 66%
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
+@media screen and (max-height: 650px) {
+    @keyframes pushUp {
+        0% {
+            transform: translate(-200px, -200px);
+        }
+        33% {
+            transform: translate(-200px, -300px);
+        }
+    
+        67% {
+            transform: translate(-200px, -400px);
+        }
+    
+        100% {
+            transform: translate(-200px, -400px);
+    
+        }
     }
 }
