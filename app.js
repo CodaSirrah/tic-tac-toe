@@ -73,7 +73,7 @@ const displayController = (() => {
         startContainer.appendChild(startButton);
         container.appendChild(titleContainer);
         container.appendChild(startContainer);
-        document.querySelector("body").appendChild(container);
+        document.querySelector("#tags").appendChild(container);
         startButton.addEventListener("click", () => {
             startContainer.style.cssText = "animation: fadeOut 0.2s linear forwards;"
             container.classList.add("pushUp");
@@ -131,12 +131,8 @@ const game = cell => {
         cell.setAttribute("data-type", type);
     };
     checkEmptyCell = () => {
-        if (cell.dataset.type === "❌" || cell.dataset.type === "⭕") {
-            return false;
-        }
-        else {
-            return true;
-        }
+        if (cell.dataset.type === "❌" || cell.dataset.type === "⭕") return false;
+        else return true;
     };
     paintCell = (currentPlayer) => {
         cell.innerHTML = currentPlayer;
@@ -220,7 +216,6 @@ const game = cell => {
         gameGrid.appendChild(victoryContainer);
         victoryContainer.addEventListener("click", (e) => {
             game().resetGrid();
-            endState = false;
         })
     };
 
@@ -234,13 +229,13 @@ const game = cell => {
         gameGrid.appendChild(victoryContainer);
         victoryContainer.addEventListener("click", (e) => {
             game().resetGrid();
-            endState = false;
         })
     };
 
     resetGrid = () => {
         document.getElementById("main").remove();
         displayController.displayGameboard();
+        endState = false;
     }
 
     playAI = () => {
