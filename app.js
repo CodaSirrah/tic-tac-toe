@@ -81,6 +81,7 @@ const displayController = (() => {
             displayController.displayGameboard();
             displayController.displayReset();
             displayController.displayOpponent();
+            displayController.displayHardcore();
         });
     };
 
@@ -115,11 +116,13 @@ const displayController = (() => {
             selectables[0].classList.remove("currentSelection");
         })
     }
+
+   
     return {
         displayWelcome,
         displayGameboard,
         displayReset,
-        displayOpponent
+        displayOpponent,
         };
     })();
 displayController.displayWelcome();
@@ -139,32 +142,36 @@ const game = cell => {
     };
     
     checkResult = (player, playerType) => {
-        if (cellArray[0].dataset.type === playerType && cellArray[1].dataset.type === playerType && 
-            cellArray[2].dataset.type === playerType ||
-            cellArray[3].dataset.type === playerType && cellArray[4].dataset.type === playerType &&
-            cellArray[5].dataset.type === playerType || 
-            cellArray[6].dataset.type === playerType && cellArray[7].dataset.type === playerType &&
-            cellArray[8].dataset.type === playerType) {
+        let cloneArray = [];
+        for (i = 0; i <= cellArray.length - 1; i++) {
+            cloneArray.push(cellArray[i].dataset.type);
+        }
+        if (cloneArray[0] === playerType && cloneArray[1] === playerType && 
+            cloneArray[2] === playerType ||
+            cloneArray[3] === playerType && cloneArray[4] === playerType &&
+            cloneArray[5] === playerType || 
+            cloneArray[6] === playerType && cloneArray[7] === playerType &&
+            cloneArray[8] === playerType) {
                 endState = true;
                 return victoryState(playerType);
-        } else if (cellArray[0].dataset.type === playerType && cellArray[3].dataset.type === playerType &&
-            cellArray[6].dataset.type === playerType ||
-            cellArray[1].dataset.type === playerType && cellArray[4].dataset.type === playerType &&
-            cellArray[7].dataset.type === playerType ||
-            cellArray[2].dataset.type === playerType && cellArray[5].dataset.type === playerType &&
-            cellArray[8].dataset.type === playerType) {
+        } else if (cloneArray[0] === playerType && cloneArray[3]=== playerType &&
+            cloneArray[6] === playerType ||
+            cloneArray[1] === playerType && cloneArray[4] === playerType &&
+            cloneArray[7] === playerType ||
+            cloneArray[2] === playerType && cloneArray[5] === playerType &&
+            cloneArray[8] === playerType) {
                 endState = true;
                 return victoryState(playerType);
-            } else if (cellArray[0].dataset.type === playerType && cellArray[4].dataset.type === playerType &&
-                cellArray[8].dataset.type === playerType ||
-                cellArray[2].dataset.type === playerType && cellArray[4].dataset.type === playerType &&
-            cellArray[6].dataset.type === playerType) {
+        } else if (cloneArray[0] === playerType && cloneArray[4] === playerType &&
+            cloneArray[8] === playerType ||
+            cloneArray[2] === playerType && cloneArray[4] === playerType &&
+            cloneArray[6] === playerType) {
                 endState = true;
                 return victoryState(playerType);
             } else {
                 let gridSpace = 9;
                 for (i = 0; i <= 8; i++) {
-                    if (cellArray[i].innerHTML === "❌" || cellArray[i].innerHTML === "⭕")  gridSpace -= 1;
+                    if (cloneArray[i] === "❌" || cloneArray[i] === "⭕")  gridSpace -= 1;
                 }
                 if (gridSpace <= 0)  {
                     endState = true;
@@ -182,7 +189,7 @@ const game = cell => {
             game(cell).markCell(player1.type);
             game(cell).paintCell(`${currentPlayer.type}`);
             game().checkResult(currentPlayer, currentPlayer.type);
-            currentPlayer = player2; 
+            // currentPlayer = player2; 
             } else if (currentPlayer === player2) {
             game(cell).markCell(player2.type);
             game(cell).paintCell(`${currentPlayer.type}`);
@@ -195,17 +202,23 @@ const game = cell => {
     // Player vs Computer
     else if (document.getElementsByClassName("currentSelection")[0].childNodes[0].nodeValue === "Computer") {
         currentPlayer = player1;
-        if (game(cell).checkEmptyCell() === true) {
-            game(cell).markCell(player1.type);
-            game(cell).paintCell(`${currentPlayer.type}`);
-            game().checkResult(currentPlayer, currentPlayer.type);
-            if (endState === false) {
-                game().playAI();
-                game().checkResult(player2, player2.type);
+            if (game(cell).checkEmptyCell() === true) {
+                game(cell).markCell(player1.type);
+                game(cell).paintCell(`${currentPlayer.type}`);
+                game().checkResult(currentPlayer, currentPlayer.type);
+                if (endState === false) {
+                    if (game().seeFuture(createArray()) === true) {
+                        game().playAITarget(j);
+                        game().checkResult(player2, player2.type);
+                    } else {
+                        game().playAI();
+                        game().checkResult(player2, player2.type);
+                    }
                 }
             } 
         }
-    };
+    };   
+    
 
     victoryState = playerType => {
         let victoryContainer = document.createElement("div");
@@ -237,6 +250,7 @@ const game = cell => {
         document.getElementById("main").remove();
         displayController.displayGameboard();
         endState = false;
+        currentPlayer = player1;
     }
 
     playAI = () => {
@@ -254,9 +268,69 @@ const game = cell => {
         } while (newArray[x] !== "Empty"); 
             game(cellArray[x]).markCell(player2.type);
             game(cellArray[x]).paintCell(player2.type);
-        
-        
-    
     }
-    return {checkEmptyCell, markCell, paintCell, checkResult, gameState, resetGrid, playAI};
+
+    createArray = () => {
+        let minimaxArray = [];
+        for (i = 0; i <= cellArray.length -1; i++ ) {
+            if (game(cellArray[i]).checkEmptyCell() === false) {
+            minimaxArray.push(cellArray[i].innerHTML);
+            } else { 
+                minimaxArray.push("Empty");
+            }
+        }
+        return minimaxArray;
+    };
+    seeFuture = array => {
+            for (i = 0; i <= 8; i++) {
+                if (array[i] === "Empty") {
+                    array[i] = player2.type;
+                
+                    if (futurePlayer(array) === Infinity) {
+                        return true;
+                        
+                    }
+                    else {
+                        array[i] = "Empty";
+                    }
+                }
+                
+            }
+        }
+                futurePlayer = array => {
+                    for (j = 0; j <= 8; j++) {
+                        if (array[j] === "Empty") {
+                            array[j] = player1.type;
+                        if (array[0] === player1.type && array[1] === player1.type && 
+                            array[2] === player1.type ||
+                            array[3] === player1.type && array[4] === player1.type &&
+                            array[5] === player1.type || 
+                            array[6] === player1.type && array[7] === player1.type &&
+                            array[8] === player1.type) {
+                                return Infinity;
+                        } else if (array[0] === player1.type && array[3] === player1.type &&
+                            array[6] === player1.type ||
+                            array[1] === player1.type && array[4] === player1.type &&
+                            array[7] === player1.type ||
+                            array[2] === player1.type && array[5] === player1.type &&
+                            array[8] === player1.type) {
+                                return Infinity;
+                        } else if (array[0] === player1.type && array[4] === player1.type &&
+                            array[8] === player1.type ||
+                            array[2] === player1.type && array[4] === player1.type &&
+                            array[6] === player1.type) {
+                            return Infinity;
+                            } else {
+                                array[j] = "Empty";
+                            }
+                        }
+                    }
+                   
+                }
+
+                playAITarget = (target) => {
+                    game(cellArray[target]).markCell(player2.type);
+                    game(cellArray[target]).paintCell(player2.type);
+                }
+    return {checkEmptyCell, markCell, paintCell, checkResult, gameState, resetGrid, playAI, seeFuture, playAITarget};
 };
