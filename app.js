@@ -81,7 +81,6 @@ const displayController = (() => {
             displayController.displayGameboard();
             displayController.displayReset();
             displayController.displayOpponent();
-            displayController.displayHardcore();
         });
     };
 
@@ -128,6 +127,7 @@ const displayController = (() => {
 displayController.displayWelcome();
 
 const cellArray = document.getElementsByClassName("gridCell");
+const innerCells = document.getElementsByClassName("innerCell");
 
 const game = cell => {
     markCell = (type) => {
@@ -137,8 +137,11 @@ const game = cell => {
         if (cell.dataset.type === "❌" || cell.dataset.type === "⭕") return false;
         else return true;
     };
-    paintCell = (currentPlayer) => {
-        cell.innerHTML = currentPlayer;
+    paintCell = (currentPlayer, classtype) => {
+        let innerCell = document.createElement("div");
+        innerCell.classList.add(classtype);
+        innerCell.innerHTML = cell.dataset.type;
+        cell.appendChild(innerCell);
     };
     
     checkResult = (player, playerType) => {
@@ -189,7 +192,7 @@ const game = cell => {
             game(cell).markCell(player1.type);
             game(cell).paintCell(`${currentPlayer.type}`);
             game().checkResult(currentPlayer, currentPlayer.type);
-            // currentPlayer = player2; 
+            currentPlayer = player2; 
             } else if (currentPlayer === player2) {
             game(cell).markCell(player2.type);
             game(cell).paintCell(`${currentPlayer.type}`);
@@ -267,14 +270,14 @@ const game = cell => {
            x = Math.floor(Math.random() * 9 )
         } while (newArray[x] !== "Empty"); 
             game(cellArray[x]).markCell(player2.type);
-            game(cellArray[x]).paintCell(player2.type);
+            game(cellArray[x]).paintCell(player2.type, "innerCellAI");
     }
 
     createArray = () => {
         let minimaxArray = [];
         for (i = 0; i <= cellArray.length -1; i++ ) {
             if (game(cellArray[i]).checkEmptyCell() === false) {
-            minimaxArray.push(cellArray[i].innerHTML);
+            minimaxArray.push(cellArray[i].dataset.type);
             } else { 
                 minimaxArray.push("Empty");
             }
@@ -330,7 +333,7 @@ const game = cell => {
 
                 playAITarget = (target) => {
                     game(cellArray[target]).markCell(player2.type);
-                    game(cellArray[target]).paintCell(player2.type);
+                    game(cellArray[target]).paintCell(player2.type, "innerCellAI");
                 }
     return {checkEmptyCell, markCell, paintCell, checkResult, gameState, resetGrid, playAI, seeFuture, playAITarget};
 };

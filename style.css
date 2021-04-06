@@ -71,7 +71,6 @@
     border: 2px solid black;
     background-color: #b4bbbf;
     font-size: 50px;
-    color: red;
     text-align: center;
     line-height: 129px;
 }
@@ -232,6 +231,11 @@
     border-radius: 10px;
     transform:scale(1.3);
     background-color: #f2ea7c;
+}
+
+
+.innerCellAI {
+    animation: fadeIn 1s linear forwards;
 }
 
 @keyframes pushUp {
